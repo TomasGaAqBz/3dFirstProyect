@@ -13,22 +13,22 @@ import Plane from '../../models/plane'
   Pop up
 </div> */}
  const Home = () => {
-
+  const [currentStage, setCurrentStage] = useState(1);
   const[isRotating, setIsRotating] = useState(false)
 
-  const adjustIslandForScreenSize = () =>{
-    let screenScale = null
-    let screenPostion=[0, -6.5, -43]
-    let rotation = [0.1,4.7,0]
+  const adjustIslandForScreenSize = () => {
+    let screenScale, screenPosition;
 
-    if(window.innerWidth <768){
-      screenScale= [0.9,0.9,0.9]
-      
-    }else{
-      screenScale= [1,1,1]
+    if (window.innerWidth < 768) {
+      screenScale = [0.9, 0.9, 0.9];
+      screenPosition = [0, -6.5, -43.4];
+    } else {
+      screenScale = [1, 1, 1];
+      screenPosition = [0, -6.5, -43.4];
     }
-    return [screenScale,screenPostion, rotation]
-  }
+
+    return [screenScale, screenPosition];
+  };
 
   const adjustPlaneForScreenSize = () =>{
     let screenScale , screenPostion
@@ -39,12 +39,12 @@ import Plane from '../../models/plane'
       
     }else{
       screenScale= [3,3,3]
-      screenPostion=[0,-4,-4]
+      screenPostion=[0,-2,-4]
     }
     return [screenScale,screenPostion]
   }
 
-  const [islanScale, islandPosition, islandRotation] = adjustIslandForScreenSize();
+  const [islandScale, islandPosition, islandRotation] = adjustIslandForScreenSize();
   const [planeScale,planePosition] = adjustPlaneForScreenSize()
 
   return (
@@ -56,15 +56,17 @@ import Plane from '../../models/plane'
           <hemisphereLight skyColor="#b1e1ff" groundColor="#000000" intensity={1}/>
 
           <Bird/>
-          <Sky/>
+          <Sky isRotating={isRotating} />
           <Island
-            position={islandPosition}
-            scale={islanScale}
-            rotation={islandRotation}
             isRotating={isRotating}
             setIsRotating={setIsRotating}
+            setCurrentStage={setCurrentStage}
+            position={islandPosition}
+            rotation={[0.1, 4.7077, 0]}
+            scale={islandScale}
           />
           <Plane
+          isRotating={isRotating}
           position={planePosition}
           scale={planeScale}
           rotation={[0,20,0]}
